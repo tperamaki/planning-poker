@@ -1,10 +1,10 @@
-import { randomUUID } from "crypto";
-import Link from "next/link";
-import "./globals.css";
+import { randomUUID } from 'crypto';
+import Link from 'next/link';
+import './globals.css';
 
 export const metadata = {
-  title: "Planning Poker",
-  description: "Planning poker for Scrum",
+  title: 'Planning Poker',
+  description: 'Planning poker for Scrum',
 };
 
 export default function RootLayout({

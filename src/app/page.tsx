@@ -1,4 +1,4 @@
-export default function Home() {
+export default function LandingPage() {
   return (
     <main>
       <p className="text-3xl font-bold underline">

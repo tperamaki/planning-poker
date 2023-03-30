@@ -20,4 +20,5 @@ export async function DELETE(request: Request, { params }: Params) {
   const redis = new Redis(redisUrlString);
   await redis.getdel(`game-${params.id}`);
   await redis.quit();
+  return NextResponse.json({});
 }

@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-
-export default function JoinGame() {
-  const [count, setCount] = useState(0);
-
+// TODO: Actually join the game and set the playerName
+export default function JoinGame(props: { id: string }) {
   return (
     <div>
-      <button onClick={() => setCount(count + 1)}>Click me</button>
+      <input />
+      <button onClick={() => console.log('JOIN GAME')}>Click me</button>
     </div>
   );
 }
