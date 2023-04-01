@@ -2,11 +2,11 @@
 
 import { useContext, useState } from 'react';
 import { GameContext } from './Game';
+import { joinGame } from '../network';
 
-// TODO: Actually join the game and set the playerName
 export default function JoinGame() {
   const [newPlayerName, setNewPlayerName] = useState<string>('');
-  const { id, setPlayerName } = useContext(GameContext);
+  const { id, refreshCounter, setPlayerName } = useContext(GameContext);
   return (
     <div className="flex gap-2">
       <input
@@ -18,10 +18,8 @@ export default function JoinGame() {
       <button
         className="border px-3 py-1"
         onClick={() => {
-          fetch(`/api/game/${id}/${newPlayerName}`, {
-            method: 'POST',
-            body: JSON.stringify({}),
-          });
+          refreshCounter();
+          joinGame(id, newPlayerName);
           setPlayerName(newPlayerName);
         }}
       >
