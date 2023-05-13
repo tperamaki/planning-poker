@@ -19,9 +19,18 @@ export const vote = (
   });
 };
 
-export const getGame = async (gameId: string): Promise<string[]> => {
+export const getGame = async (
+  gameId: string
+): Promise<Record<string, number>> => {
   const res = await fetch(`/api/game/${gameId}`, {
     cache: 'no-store',
   });
   return res.json();
+};
+
+export const resetGame = async (gameId: string): Promise<boolean> => {
+  const res = await fetch(`/api/game/${gameId}`, {
+    method: 'DELETE',
+  });
+  return res.ok;
 };

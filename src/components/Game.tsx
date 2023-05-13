@@ -1,68 +1,67 @@
 'use client';
-import { useCallback, useEffect, useState, createContext } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { Vote } from './Vote';
 import JoinGame from './JoinGame';
-import { getGame } from '@/network';
+import { getGame, resetGame } from '@/network';
 
-const ACTIVE_COUNTER_START_VALUE = 20;
+const INACTIVE_AFTER_MS = 15000;
 const FETCH_INTERVAL_MS = 5000;
 
 // TODO: When inactive, show popup to allow restarting fetching
 // TODO: Show results only after clicking something
+// TODO: Show results only after clicking something, online version
 // TODO: Resetting game
+// TODO: Kick players
 
 type GameContextType = {
   id: string;
-  game: string[];
-  setGame: (game: string[]) => void;
+  game: Record<string, number>;
+  setGame: Dispatch<SetStateAction<Record<string, number>>>;
   playerName: string;
   setPlayerName: (game: string) => void;
-  activeCounter: number;
-  setActiveCounter: (value: number) => void;
   refreshCounter: () => void;
 };
 
 export const GameContext = createContext<GameContextType>({
   id: '',
-  game: [],
+  game: {},
   setGame: () => null,
   playerName: '',
   setPlayerName: () => null,
-  activeCounter: ACTIVE_COUNTER_START_VALUE,
-  setActiveCounter: () => null,
   refreshCounter: () => null,
 });
 
 export const Game = (props: { id: string }): JSX.Element => {
-  const [game, setGame] = useState<string[]>([]);
+  const [game, setGame] = useState<Record<string, number>>({});
   const [playerName, setPlayerName] = useState<string>('');
-  const [activeCounter, setActiveCounter] = useState<number>(
-    ACTIVE_COUNTER_START_VALUE
-  );
-  const [timerActive, setTimerActive] = useState<boolean>(false);
+  const [lastActive, setLastActive] = useState<number>(Date.now());
+  const [fetching, setFetching] = useState<boolean>(false);
 
-  const fetchGame = useCallback(async () => {
-    const newGame = await getGame(props.id);
-    setGame(newGame ?? []);
-    setTimerActive(true);
-    if (!timerActive && activeCounter > 0) {
-      setTimerActive(true);
-      setActiveCounter((prev) => prev - 1);
-      setTimeout(() => {
-        setTimerActive(false);
-        fetchGame();
-      }, FETCH_INTERVAL_MS);
-    }
-  }, [activeCounter, props.id, timerActive]);
-
-  const refreshCounter = useCallback(async () => {
-    setActiveCounter(ACTIVE_COUNTER_START_VALUE);
-    fetchGame();
-  }, [fetchGame]);
+  const refreshCounter = () => {
+    setLastActive(Date.now());
+  };
 
   useEffect(() => {
-    fetchGame();
-  }, [fetchGame]);
+    const interval = setInterval(() => {
+      if (Date.now() - lastActive > INACTIVE_AFTER_MS) return;
+      setFetching(true);
+      getGame(props.id).then((game) => {
+        console.log(game);
+        if (game) {
+          setGame(game);
+        }
+        setFetching(false);
+      });
+    }, FETCH_INTERVAL_MS);
+    return () => clearInterval(interval);
+  }, [props.id, lastActive]);
 
   return (
     <GameContext.Provider
@@ -72,8 +71,6 @@ export const Game = (props: { id: string }): JSX.Element => {
         setGame,
         playerName,
         setPlayerName,
-        activeCounter,
-        setActiveCounter,
         refreshCounter,
       }}
     >
@@ -82,6 +79,14 @@ export const Game = (props: { id: string }): JSX.Element => {
           {Object.entries(game).map(([name, value]) => (
             <p key={name}>{`${name}: ${value}`}</p>
           ))}
+          <button onClick={() => resetGame(props.id)}>Reset game</button>
+          {fetching && 'LOADING...'}
+          {Date.now() - lastActive > INACTIVE_AFTER_MS && (
+            <div>
+              <p>Stopped refreshing due inactivity, click here to restart</p>
+              <button onClick={refreshCounter}>Im back!</button>
+            </div>
+          )}
         </div>
 
         {playerName ? <Vote /> : <JoinGame />}

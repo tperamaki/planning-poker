@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 
 const redisUrlString = process.env.REDIS_URL_STRING ?? 'redis://localhost:6379';
 
+const REDIS_EXPIRE_MS = 15 * 60;
+
 interface Params {
   params: { id: string; name: string };
 }
@@ -15,7 +17,12 @@ const setValueForPlayerInGame = async (
 ) => {
   const game = JSON.parse((await redis.get(`game-${gameId}`)) ?? '{}');
   game[playerName] = value;
-  await redis.set(`game-${gameId}`, JSON.stringify(game));
+  await redis.set(
+    `game-${gameId}`,
+    JSON.stringify(game),
+    'EX',
+    REDIS_EXPIRE_MS
+  );
   return NextResponse.json({});
 };
 

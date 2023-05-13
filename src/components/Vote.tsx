@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { VoteButton } from './Buttons';
 
 export const Vote = (): JSX.Element => {
