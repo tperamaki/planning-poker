@@ -9,16 +9,15 @@ import {
 } from 'react';
 import { Vote } from './Vote';
 import JoinGame from './JoinGame';
-import { getGame, resetGame } from '@/network';
+import { getGame, resetGame, showResults } from '@/network';
+import { Results } from './Results';
+import { PlayerList } from './PlayerList';
 
-const INACTIVE_AFTER_MS = 15000;
-const FETCH_INTERVAL_MS = 5000;
+const INACTIVE_AFTER_MS = 5 * 60 * 1000;
+const FETCH_INTERVAL_MS = 2 * 1000;
 
-// TODO: When inactive, show popup to allow restarting fetching
-// TODO: Show results only after clicking something
-// TODO: Show results only after clicking something, online version
-// TODO: Resetting game
-// TODO: Kick players
+// TODO: When inactive, show popup to allow restarting fetching, instead of ugly non-button text thingy
+// TODO: Make it look good
 
 type GameContextType = {
   id: string;
@@ -53,7 +52,6 @@ export const Game = (props: { id: string }): JSX.Element => {
       if (Date.now() - lastActive > INACTIVE_AFTER_MS) return;
       setFetching(true);
       getGame(props.id).then((game) => {
-        console.log(game);
         if (game) {
           setGame(game);
         }
@@ -76,12 +74,32 @@ export const Game = (props: { id: string }): JSX.Element => {
     >
       <div>
         <div>
-          {Object.entries(game).map(([name, value]) => (
-            <p key={name}>{`${name}: ${value}`}</p>
-          ))}
-          <button onClick={() => resetGame(props.id)}>Reset game</button>
-          {fetching && 'LOADING...'}
-          {Date.now() - lastActive > INACTIVE_AFTER_MS && (
+          <button
+            onClick={() => {
+              resetGame(props.id);
+              setGame((game) => {
+                return Object.fromEntries(
+                  Object.entries(game).map(([key, _value]) => [key, -1])
+                );
+              });
+            }}
+          >
+            Reset game
+          </button>
+          <br />
+          <button
+            onClick={() => {
+              showResults(props.id);
+              setGame((game) => {
+                const newGame = { ...game };
+                newGame['showResults'] = 1;
+                return newGame;
+              });
+            }}
+          >
+            Show results
+          </button>
+          {Date.now() - lastActive > INACTIVE_AFTER_MS - FETCH_INTERVAL_MS && (
             <div>
               <p>Stopped refreshing due inactivity, click here to restart</p>
               <button onClick={refreshCounter}>Im back!</button>
@@ -89,7 +107,15 @@ export const Game = (props: { id: string }): JSX.Element => {
           )}
         </div>
 
-        {playerName ? <Vote /> : <JoinGame />}
+        <PlayerList />
+
+        {game.showResults === 1 ? (
+          <Results />
+        ) : playerName === '' ? (
+          <JoinGame />
+        ) : (
+          <Vote />
+        )}
       </div>
     </GameContext.Provider>
   );
