@@ -1,11 +1,11 @@
 'use client';
 import {
-  useCallback,
   useEffect,
   useState,
   createContext,
   Dispatch,
   SetStateAction,
+  useCallback,
 } from 'react';
 import { Vote } from './Vote';
 import JoinGame from './JoinGame';
@@ -16,6 +16,7 @@ import { PlayerList } from './PlayerList';
 const INACTIVE_AFTER_MS = 5 * 60 * 1000;
 const FETCH_INTERVAL_MS = 2 * 1000;
 
+// TODO: Show who's ready (eg. has voted, without showing the actual vote)
 // TODO: When inactive, show popup to allow restarting fetching, instead of ugly non-button text thingy
 // TODO: Make it look good
 
@@ -42,10 +43,19 @@ export const Game = (props: { id: string }): JSX.Element => {
   const [playerName, setPlayerName] = useState<string>('');
   const [lastActive, setLastActive] = useState<number>(Date.now());
   const [fetching, setFetching] = useState<boolean>(false);
+  const [urlCopied, setUrlCopied] = useState<boolean>(false);
 
   const refreshCounter = () => {
     setLastActive(Date.now());
   };
+
+  const copyUrl = useCallback(() => {
+    navigator.clipboard.writeText(window.location.href);
+    if (!urlCopied) {
+      setUrlCopied(true);
+      setTimeout(() => setUrlCopied(false), 5000);
+    }
+  }, [urlCopied]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -73,8 +83,16 @@ export const Game = (props: { id: string }): JSX.Element => {
       }}
     >
       <div>
-        <div>
+        <h2 className="text-xl font-bold mt-5">Room ID: {props.id}</h2>
+        <div className="flex flex-col gap-3 max-w-xs">
           <button
+            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
+            onClick={copyUrl}
+          >
+            {urlCopied ? 'Copied!' : 'Copy URL to clipboard'}
+          </button>
+          <button
+            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
             onClick={() => {
               resetGame(props.id);
               setGame((game) => {
@@ -86,8 +104,8 @@ export const Game = (props: { id: string }): JSX.Element => {
           >
             Reset game
           </button>
-          <br />
           <button
+            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
             onClick={() => {
               showResults(props.id);
               setGame((game) => {
@@ -105,9 +123,8 @@ export const Game = (props: { id: string }): JSX.Element => {
               <button onClick={refreshCounter}>Im back!</button>
             </div>
           )}
+          <PlayerList />
         </div>
-
-        <PlayerList />
 
         {game.showResults === 1 ? (
           <Results />
