@@ -8,23 +8,27 @@ export default function JoinGame() {
   const [newPlayerName, setNewPlayerName] = useState<string>('');
   const { id, refreshCounter, setPlayerName } = useContext(GameContext);
   return (
-    <div className="flex gap-2">
-      <input
-        className="dark:bg-neutral-500"
-        onChange={(val) => {
-          setNewPlayerName(val.currentTarget.value);
-        }}
-      />
-      <button
-        className="border px-3 py-1"
-        onClick={() => {
-          refreshCounter();
-          joinGame(id, newPlayerName);
-          setPlayerName(newPlayerName);
-        }}
-      >
-        Join
-      </button>
-    </div>
+    <form
+      onSubmit={() => {
+        refreshCounter();
+        joinGame(id, newPlayerName);
+        setPlayerName(newPlayerName);
+      }}
+    >
+      <label htmlFor="playerNameInput">Your name</label>
+      <div className="flex gap-2">
+        <input
+          id="playerNameInput"
+          className="dark:bg-neutral-500 p-2 rounded"
+          onChange={(val) => {
+            setNewPlayerName(val.currentTarget.value);
+          }}
+          required
+        />
+        <button className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out">
+          Join
+        </button>
+      </div>
+    </form>
   );
 }

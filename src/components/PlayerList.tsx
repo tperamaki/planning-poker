@@ -6,28 +6,32 @@ export const PlayerList = (): JSX.Element => {
   const { game, id, refreshCounter, setGame } = useContext(GameContext);
 
   return (
-    <div className="flex gap-2 justify-center">
-      {Object.entries(game)
-        .filter(([key, _val]) => key !== 'showResults')
-        .map(([key, val]) => (
-          <p key={key}>
-            {key}{' '}
-            <button
-              onClick={() => {
-                refreshCounter();
-                kick(id, key);
-                setGame((game) => {
-                  const newGame = { ...game };
-                  delete newGame[key];
-                  return newGame;
-                });
-              }}
-              className="text-red-300"
-            >
-              X
-            </button>
-          </p>
-        ))}
+    <div className="mt-5">
+      <h3>Players:</h3>
+      <div className="flex flex-col items-between gap-2">
+        {Object.entries(game)
+          .filter(([key, _val]) => key !== 'showResults')
+          .map(([key, val]) => (
+            <div key={key} className="flex flex-row justify-between">
+              <p className={`${val !== -1 ? 'text-green-500' : ''}`}>{key}</p>
+              <button
+                title={`Kick player ${key}`}
+                onClick={() => {
+                  refreshCounter();
+                  kick(id, key);
+                  setGame((game) => {
+                    const newGame = { ...game };
+                    delete newGame[key];
+                    return newGame;
+                  });
+                }}
+                className="text-red-300 rounded border border-black px-2 ml-2 dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
+              >
+                X
+              </button>
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

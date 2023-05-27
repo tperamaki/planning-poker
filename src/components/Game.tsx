@@ -16,9 +16,9 @@ import { PlayerList } from './PlayerList';
 const INACTIVE_AFTER_MS = 5 * 60 * 1000;
 const FETCH_INTERVAL_MS = 2 * 1000;
 
-// TODO: Show who's ready (eg. has voted, without showing the actual vote)
 // TODO: When inactive, show popup to allow restarting fetching, instead of ugly non-button text thingy
-// TODO: Make it look good
+// TODO: Better results, median, average, smallest, largest, ...
+// TODO: Make it available online
 
 type GameContextType = {
   id: string;
@@ -82,17 +82,17 @@ export const Game = (props: { id: string }): JSX.Element => {
         refreshCounter,
       }}
     >
-      <div>
-        <h2 className="text-xl font-bold mt-5">Room ID: {props.id}</h2>
-        <div className="flex flex-col gap-3 max-w-xs">
+      <h2 className="text-xl font-bold mt-5">Room ID: {props.id}</h2>
+      <div className="flex flex-row gap-3">
+        <div className="flex flex-col gap-3 max-w-xs my-5">
           <button
-            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
+            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={copyUrl}
           >
             {urlCopied ? 'Copied!' : 'Copy URL to clipboard'}
           </button>
           <button
-            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
+            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={() => {
               resetGame(props.id);
               setGame((game) => {
@@ -105,7 +105,7 @@ export const Game = (props: { id: string }): JSX.Element => {
             Reset game
           </button>
           <button
-            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
+            className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={() => {
               showResults(props.id);
               setGame((game) => {
@@ -125,14 +125,15 @@ export const Game = (props: { id: string }): JSX.Element => {
           )}
           <PlayerList />
         </div>
-
-        {game.showResults === 1 ? (
-          <Results />
-        ) : playerName === '' ? (
-          <JoinGame />
-        ) : (
-          <Vote />
-        )}
+        <div className="grow my-5 mx-10">
+          {game.showResults === 1 ? (
+            <Results />
+          ) : playerName === '' ? (
+            <JoinGame />
+          ) : (
+            <Vote />
+          )}
+        </div>
       </div>
     </GameContext.Provider>
   );

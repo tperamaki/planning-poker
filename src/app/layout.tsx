@@ -19,7 +19,7 @@ export default function RootLayout({
         <nav className="flex gap-1">
           <div className="flex-1">
             <Link
-              className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
+              className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
               href="/"
             >
               Home
@@ -30,7 +30,7 @@ export default function RootLayout({
           </div>
           <div className="flex-1 text-right">
             <Link
-              className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600"
+              className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
               href={`/${newGameId}`}
             >
               Create new

@@ -9,9 +9,14 @@ export const Results = (): JSX.Element => {
       {Object.entries(game)
         .filter(([key, _val]) => key !== 'showResults')
         .map(([key, val]) => (
-          <p key={key}>
-            {key}: {val}
-          </p>
+          <div key={key} className="flex flex-col items-center gap-2">
+            {key}
+            <p
+              className={`border border-solid border-slate-500 rounded-xl px-10 py-20`}
+            >
+              {val}
+            </p>
+          </div>
         ))}
     </div>
   );
