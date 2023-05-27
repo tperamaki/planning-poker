@@ -4,6 +4,8 @@
 
 Purpose of this app is to provide a free planning poker solution for scrum teams to use.
 
+It is deployed and available at https://planning-poker.tperamaki.com
+
 ## Requirements
 
 - Redis
