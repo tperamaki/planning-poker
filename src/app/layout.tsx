@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { randomUUID } from 'crypto';
 import Link from 'next/link';
 import './globals.css';
@@ -38,6 +39,7 @@ export default function RootLayout({
           </div>
         </nav>
         <div>{children}</div>
+        <Analytics />
       </body>
     </html>
   );
