@@ -16,10 +16,6 @@ import { PlayerList } from './PlayerList';
 const INACTIVE_AFTER_MS = 5 * 60 * 1000;
 const FETCH_INTERVAL_MS = 2 * 1000;
 
-// TODO: When inactive, show popup to allow restarting fetching, instead of ugly non-button text thingy
-// TODO: Better results, median, average, smallest, largest, ...
-// TODO: Make it available online
-
 type GameContextType = {
   id: string;
   game: Record<string, number>;

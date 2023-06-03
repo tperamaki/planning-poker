@@ -13,7 +13,13 @@ export const PlayerList = (): JSX.Element => {
           .filter(([key, _val]) => key !== 'showResults')
           .map(([key, val]) => (
             <div key={key} className="flex flex-row justify-between">
-              <p className={`${val !== -1 ? 'text-green-500' : ''}`}>{key}</p>
+              <p
+                className={`${
+                  val !== -1 ? 'text-green-600 dark:text-green-400' : ''
+                }`}
+              >
+                {key}
+              </p>
               <button
                 title={`Kick player ${key}`}
                 onClick={() => {
@@ -25,7 +31,7 @@ export const PlayerList = (): JSX.Element => {
                     return newGame;
                   });
                 }}
-                className="text-red-300 rounded border border-black px-2 ml-2 dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
+                className="text-red-700 dark:text-red-300 rounded border border-black px-2 ml-2 dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
               >
                 X
               </button>

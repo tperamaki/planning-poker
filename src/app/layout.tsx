@@ -39,6 +39,18 @@ export default function RootLayout({
           </div>
         </nav>
         <div>{children}</div>
+        <footer className="fixed bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-neutral-200 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-neutral-800 dark:border-neutral-600">
+          <p>
+            Found an issue? Contribute on{' '}
+            <Link
+              className="underline hover:text-red-800 dark:hover:text-red-200"
+              href="https://github.com/tperamaki/planning-poker"
+            >
+              Github
+            </Link>
+            !
+          </p>
+        </footer>
         <Analytics />
       </body>
     </html>
