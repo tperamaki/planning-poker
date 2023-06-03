@@ -15,12 +15,14 @@ const isLargestInResultsArray = (
   return !results.some(([_name, result]) => result > value);
 };
 
-const calculateMedian = (results: [string, number][]): string =>
-  results.length % 2 === 0
-    ? `${results[results.length / 2 - 1]?.[1]} - ${
-        results[results.length / 2]?.[1]
+const calculateMedian = (results: [string, number][]): string => {
+  const sortedResults = [...results].sort((a, b) => a[1] - b[1]);
+  return sortedResults.length % 2 === 0
+    ? `${sortedResults[sortedResults.length / 2 - 1]?.[1]} - ${
+        sortedResults[sortedResults.length / 2]?.[1]
       }`
-    : `${results[Math.floor(results.length / 2)]?.[1]}`;
+    : `${sortedResults[Math.floor(sortedResults.length / 2)]?.[1]}`;
+};
 
 const calculateAverage = (results: [string, number][]): string =>
   (results.reduce((prev, cur) => prev + cur[1], 0) / results.length).toFixed(2);
