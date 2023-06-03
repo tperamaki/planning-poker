@@ -17,10 +17,10 @@ const isLargestInResultsArray = (
 
 const calculateMedian = (results: [string, number][]): string =>
   results.length % 2 === 0
-    ? `${results[results.length / 2 - 1][1]} - ${
-        results[results.length / 2][1]
+    ? `${results[results.length / 2 - 1]?.[1]} - ${
+        results[results.length / 2]?.[1]
       }`
-    : `${results[Math.floor(results.length / 2)][1]}`;
+    : `${results[Math.floor(results.length / 2)]?.[1]}`;
 
 const calculateAverage = (results: [string, number][]): string =>
   (results.reduce((prev, cur) => prev + cur[1], 0) / results.length).toFixed(2);
@@ -31,7 +31,8 @@ export const Results = (): JSX.Element => {
   const results = useMemo(
     () =>
       Object.entries(game).filter(
-        ([key, val]) => key !== 'showResults' && val >= 0
+        ([key, val]) =>
+          key !== '__showResults' && key !== '__lastUpdated' && val >= 0
       ),
     [game]
   );

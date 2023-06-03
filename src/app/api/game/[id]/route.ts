@@ -24,6 +24,7 @@ export async function DELETE(request: Request, { params }: Params) {
   const resettedGame = Object.fromEntries(
     Object.entries(game).map(([key, _value]) => [key, -1])
   );
+  resettedGame['__lastUpdated'] = Date.now();
   await redis.set(
     `game-${params.id}`,
     JSON.stringify(resettedGame),

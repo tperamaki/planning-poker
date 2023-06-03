@@ -35,6 +35,7 @@ export const GameContext = createContext<GameContextType>({
 });
 
 export const Game = (props: { id: string }): JSX.Element => {
+  const [lastUpdated, setLastUpdated] = useState<number>(0);
   const [game, setGame] = useState<Record<string, number>>({});
   const [playerName, setPlayerName] = useState<string>('');
   const [lastActive, setLastActive] = useState<number>(Date.now());
@@ -58,14 +59,23 @@ export const Game = (props: { id: string }): JSX.Element => {
       if (Date.now() - lastActive > INACTIVE_AFTER_MS) return;
       setFetching(true);
       getGame(props.id).then((game) => {
-        if (game) {
+        if (game['__lastUpdated'] > lastUpdated) {
           setGame(game);
+          setLastUpdated(game['__lastUpdated']);
         }
         setFetching(false);
       });
     }, FETCH_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [props.id, lastActive]);
+  }, [props.id, lastActive, lastUpdated]);
+
+  useEffect(() => {
+    if (game['__lastUpdated'] === lastUpdated) {
+      setLastUpdated(Date.now());
+    } else if (game['__lastUpdated'] > lastUpdated) {
+      setLastUpdated(game['__lastUpdated']);
+    }
+  }, [game, lastUpdated]);
 
   return (
     <GameContext.Provider
@@ -91,11 +101,11 @@ export const Game = (props: { id: string }): JSX.Element => {
             className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={() => {
               resetGame(props.id);
-              setGame((game) => {
-                return Object.fromEntries(
+              setGame((game) =>
+                Object.fromEntries(
                   Object.entries(game).map(([key, _value]) => [key, -1])
-                );
-              });
+                )
+              );
             }}
           >
             Reset game
@@ -106,7 +116,7 @@ export const Game = (props: { id: string }): JSX.Element => {
               showResults(props.id);
               setGame((game) => {
                 const newGame = { ...game };
-                newGame['showResults'] = 1;
+                newGame['__showResults'] = 1;
                 return newGame;
               });
             }}
@@ -122,7 +132,7 @@ export const Game = (props: { id: string }): JSX.Element => {
           <PlayerList />
         </div>
         <div className="grow my-5 mx-10">
-          {game.showResults === 1 ? (
+          {game.__showResults === 1 ? (
             <Results />
           ) : playerName === '' ? (
             <JoinGame />

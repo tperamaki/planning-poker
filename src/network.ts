@@ -26,7 +26,7 @@ export const kick = (gameId: string, playerName: string): Promise<Response> => {
 };
 
 export const showResults = (gameId: string): Promise<Response> => {
-  return fetch(`/api/game/${gameId}/showResults`, {
+  return fetch(`/api/game/${gameId}/__showResults`, {
     method: 'PUT',
     body: JSON.stringify({ value: 1 }),
   });

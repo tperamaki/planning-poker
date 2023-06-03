@@ -17,6 +17,7 @@ const setValueForPlayerInGame = async (
 ) => {
   const game = JSON.parse((await redis.get(`game-${gameId}`)) ?? '{}');
   game[playerName] = value;
+  game['__lastUpdated'] = Date.now();
   await redis.set(
     `game-${gameId}`,
     JSON.stringify(game),

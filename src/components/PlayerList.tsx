@@ -10,7 +10,9 @@ export const PlayerList = (): JSX.Element => {
       <h3>Players:</h3>
       <div className="flex flex-col items-between gap-2">
         {Object.entries(game)
-          .filter(([key, _val]) => key !== 'showResults')
+          .filter(
+            ([key, _val]) => key !== '__showResults' && key !== '__lastUpdated'
+          )
           .map(([key, val]) => (
             <div key={key} className="flex flex-row justify-between">
               <p
