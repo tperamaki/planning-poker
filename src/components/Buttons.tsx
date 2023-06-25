@@ -12,7 +12,7 @@ export const VoteButton = (props: {
     useContext(GameContext);
   return (
     <button
-      className={`border border-solid border-slate-500 rounded-xl px-10 py-20 ${
+      className={`border border-solid border-slate-500 rounded-xl px-10 py-20 hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
         game[playerName] === props.value ? 'bg-slate-600' : ''
       }`}
       onClick={() => {
