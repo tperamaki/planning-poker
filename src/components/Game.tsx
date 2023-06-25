@@ -12,6 +12,7 @@ import JoinGame from './JoinGame';
 import { getGame, resetGame, showResults } from '@/network';
 import { Results } from './Results';
 import { PlayerList } from './PlayerList';
+import { InactivityModal } from './InactivityModal';
 
 const INACTIVE_AFTER_MS = 5 * 60 * 1000;
 const FETCH_INTERVAL_MS = 2 * 1000;
@@ -39,7 +40,7 @@ export const Game = (props: { id: string }): JSX.Element => {
   const [game, setGame] = useState<Record<string, number>>({});
   const [playerName, setPlayerName] = useState<string>('');
   const [lastActive, setLastActive] = useState<number>(Date.now());
-  const [fetching, setFetching] = useState<boolean>(false);
+  const [inactive, setInactive] = useState<boolean>(false);
   const [urlCopied, setUrlCopied] = useState<boolean>(false);
 
   const refreshCounter = () => {
@@ -55,15 +56,17 @@ export const Game = (props: { id: string }): JSX.Element => {
   }, [urlCopied]);
 
   useEffect(() => {
+    setInactive(false);
     const interval = setInterval(() => {
-      if (Date.now() - lastActive > INACTIVE_AFTER_MS) return;
-      setFetching(true);
+      if (Date.now() - lastActive > INACTIVE_AFTER_MS) {
+        setInactive(true);
+        return;
+      }
       getGame(props.id).then((game) => {
         if (game['__lastUpdated'] > lastUpdated) {
           setGame(game);
           setLastUpdated(game['__lastUpdated']);
         }
-        setFetching(false);
       });
     }, FETCH_INTERVAL_MS);
     return () => clearInterval(interval);
@@ -123,12 +126,6 @@ export const Game = (props: { id: string }): JSX.Element => {
           >
             Show results
           </button>
-          {Date.now() - lastActive > INACTIVE_AFTER_MS - FETCH_INTERVAL_MS && (
-            <div>
-              <p>Stopped refreshing due inactivity, click here to restart</p>
-              <button onClick={refreshCounter}>Im back!</button>
-            </div>
-          )}
           <PlayerList />
         </div>
         <div className="grow my-5 mx-10">
@@ -141,6 +138,7 @@ export const Game = (props: { id: string }): JSX.Element => {
           )}
         </div>
       </div>
+      {inactive && <InactivityModal />}
     </GameContext.Provider>
   );
 };
