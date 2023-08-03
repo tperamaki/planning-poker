@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { randomUUID } from 'crypto';
 import Link from 'next/link';
 import './globals.css';
+import { NewGameLink } from '@/components/Buttons';
 
 export const metadata = {
   title: 'Planning Poker',
@@ -30,12 +31,9 @@ export default function RootLayout({
             <h1 className="text-xl">Planning poker</h1>
           </div>
           <div className="flex-1 text-right">
-            <Link
-              className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
-              href={`/${newGameId}`}
-            >
+            <NewGameLink className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out">
               Create new
-            </Link>
+            </NewGameLink>
           </div>
         </nav>
         <div>{children}</div>

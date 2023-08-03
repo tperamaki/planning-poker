@@ -1,3 +1,4 @@
+import { NewGameLink } from '@/components/Buttons';
 import { randomUUID } from 'crypto';
 import Link from 'next/link';
 
@@ -10,12 +11,9 @@ export default function LandingPage() {
       </h2>
       <p>
         Use a link from your friend or a colleague to join, or{' '}
-        <Link
-          className="underline hover:text-red-800 dark:hover:text-red-200"
-          href={`/${newGameId}`}
-        >
+        <NewGameLink className="underline hover:text-red-800 dark:hover:text-red-200">
           create a new room.
-        </Link>
+        </NewGameLink>
       </p>
       <div className="flex flex-col gap-5 py-3 px-8 border-solid rounded-lg border-2 mt-5 mb-10">
         <h3 className="text-xl font-bold">What is planning poker?</h3>

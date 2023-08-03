@@ -1,8 +1,10 @@
 'use client';
 
-import { useContext } from 'react';
+import { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { GameContext } from './Game';
 import { vote } from '@/network';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export const VoteButton = (props: {
   value: number;
@@ -27,5 +29,22 @@ export const VoteButton = (props: {
     >
       {props.buttonText}
     </button>
+  );
+};
+
+export const NewGameLink = (
+  props: PropsWithChildren<{ className: string }>
+) => {
+  const pathname = usePathname();
+  const [newGameId, setNewGameId] = useState<string>('');
+
+  useEffect(() => {
+    setNewGameId(crypto.randomUUID());
+  }, [pathname]);
+
+  return (
+    <Link className={props.className} href={`/${newGameId}`}>
+      {props.children}
+    </Link>
   );
 };
