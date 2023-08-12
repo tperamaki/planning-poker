@@ -1,0 +1,4 @@
+# Disallow crawling the game urls
+user-agent: *
+Allow: /$
+Disallow: /

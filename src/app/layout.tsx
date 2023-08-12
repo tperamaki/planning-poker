@@ -17,6 +17,11 @@ export default function RootLayout({
   const newGameId = randomUUID();
   return (
     <html lang="en">
+      <head>
+        <meta name="background-color" content="#262626" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="manifest" href="manifest.json"></link>
+      </head>
       <body className="bg-neutral-300 dark:bg-neutral-800 dark:text-white m-5">
         <nav className="flex gap-1">
           <div className="flex-1">
