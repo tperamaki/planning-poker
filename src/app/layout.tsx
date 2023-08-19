@@ -53,6 +53,16 @@ export default function RootLayout({
             </Link>
             !
           </p>
+          <p>
+            You can also{' '}
+            <a
+              className="underline hover:text-red-800 dark:hover:text-red-200"
+              href="https://github.com/sponsors/tperamaki"
+            >
+              sponsor me on Github
+            </a>
+            !
+          </p>
         </footer>
         <Analytics />
       </body>
