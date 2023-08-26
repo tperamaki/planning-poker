@@ -93,7 +93,7 @@ export const Game = (props: { id: string }): JSX.Element => {
     >
       <h2 className="text-xl font-bold mt-5">Room ID: {props.id}</h2>
       <div className="flex flex-row gap-3">
-        <div className="flex flex-col gap-3 max-w-xs my-5">
+        <div className="flex flex-col gap-3 my-5 min-w-[200px]">
           <button
             className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={copyUrl}
@@ -106,8 +106,8 @@ export const Game = (props: { id: string }): JSX.Element => {
               resetGame(props.id);
               setGame((game) =>
                 Object.fromEntries(
-                  Object.entries(game).map(([key, _value]) => [key, -1])
-                )
+                  Object.entries(game).map(([key, _value]) => [key, -1]),
+                ),
               );
             }}
           >
