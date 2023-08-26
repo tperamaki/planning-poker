@@ -14,7 +14,7 @@ export const VoteButton = (props: {
     useContext(GameContext);
   return (
     <button
-      className={`border border-solid border-slate-500 rounded-xl px-10 py-20 hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
+      className={`border border-solid border-slate-500 rounded-xl px-10 py-5 lg:py-20 hover:bg-neutral-400 dark:hover:bg-neutral-600 ${
         game[playerName] === props.value ? 'bg-slate-600' : ''
       }`}
       onClick={() => {
@@ -33,7 +33,7 @@ export const VoteButton = (props: {
 };
 
 export const NewGameLink = (
-  props: PropsWithChildren<{ className: string }>
+  props: PropsWithChildren<{ className: string }>,
 ) => {
   const pathname = usePathname();
   const [newGameId, setNewGameId] = useState<string>('');

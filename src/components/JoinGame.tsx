@@ -16,7 +16,7 @@ export default function JoinGame() {
       }}
     >
       <label htmlFor="playerNameInput">Your name</label>
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         <input
           id="playerNameInput"
           className="dark:bg-neutral-500 p-2 rounded"
@@ -25,7 +25,7 @@ export default function JoinGame() {
           }}
           required
         />
-        <button className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out">
+        <button className="py-2 px-5 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out">
           Join
         </button>
       </div>
