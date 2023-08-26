@@ -3,14 +3,14 @@ import { GameContext } from './Game';
 
 const isSmallestInResultsArray = (
   results: [string, number][],
-  value: number
+  value: number,
 ): boolean => {
   return !results.some(([_name, result]) => result < value);
 };
 
 const isLargestInResultsArray = (
   results: [string, number][],
-  value: number
+  value: number,
 ): boolean => {
   return !results.some(([_name, result]) => result > value);
 };
@@ -18,9 +18,11 @@ const isLargestInResultsArray = (
 const calculateMedian = (results: [string, number][]): string => {
   const sortedResults = [...results].sort((a, b) => a[1] - b[1]);
   return sortedResults.length % 2 === 0
-    ? `${sortedResults[sortedResults.length / 2 - 1]?.[1]} - ${
-        sortedResults[sortedResults.length / 2]?.[1]
-      }`
+    ? `${(
+        (sortedResults[sortedResults.length / 2 - 1]?.[1] +
+          sortedResults[sortedResults.length / 2]?.[1]) /
+          2,
+      ).toFixed(1)}`
     : `${sortedResults[Math.floor(sortedResults.length / 2)]?.[1]}`;
 };
 
@@ -34,9 +36,9 @@ export const Results = (): JSX.Element => {
     () =>
       Object.entries(game).filter(
         ([key, val]) =>
-          key !== '__showResults' && key !== '__lastUpdated' && val >= 0
+          key !== '__showResults' && key !== '__lastUpdated' && val >= 0,
       ),
-    [game]
+    [game],
   );
 
   return (
