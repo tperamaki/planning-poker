@@ -21,7 +21,7 @@ const calculateMedian = (results: [string, number][]): string => {
     ? `${(
         (sortedResults[sortedResults.length / 2 - 1]?.[1] +
           sortedResults[sortedResults.length / 2]?.[1]) /
-          2,
+        2
       ).toFixed(1)}`
     : `${sortedResults[Math.floor(sortedResults.length / 2)]?.[1]}`;
 };
