@@ -43,6 +43,7 @@ export const Results = (): JSX.Element => {
 
   return (
     <div>
+      <h3 className="text-3xl text-center mb-5">Results</h3>
       <div className="flex gap-2 justify-center">
         {results.map(([key, val], _i, arr) => (
           <div key={key} className="flex flex-col items-center gap-2">

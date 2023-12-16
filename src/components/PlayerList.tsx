@@ -7,7 +7,6 @@ export const PlayerList = (): JSX.Element => {
   const players = Object.entries(game).filter(
     ([key, _val]) => key !== '__showResults' && key !== '__lastUpdated',
   );
-  console.log(players);
 
   return (
     <div className="mt-5">
