@@ -12,7 +12,7 @@ export const PlayerList = (): JSX.Element => {
     <div className="mt-5">
       <div className="flex flex-row justify-between">
         <h3>Players</h3>
-        <p>
+        <p title="Players ready / Total amount of players">
           ({players.filter(([_, val]) => val !== -1).length}/{players.length})
         </p>
       </div>
