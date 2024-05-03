@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { GameContext } from './Game';
 import { kick } from '@/network';
+import { Button } from './Buttons';
 
 export const PlayerList = (): JSX.Element => {
   const { game, id, refreshCounter, setGame } = useContext(GameContext);

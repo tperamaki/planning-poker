@@ -13,6 +13,7 @@ import { getGame, resetGame, showResults } from '@/network';
 import { Results } from './Results';
 import { PlayerList } from './PlayerList';
 import { InactivityModal } from './InactivityModal';
+import { Button } from './Buttons';
 
 const INACTIVE_AFTER_MS = 5 * 60 * 1000;
 const FETCH_INTERVAL_MS = 2 * 1000;
@@ -94,13 +95,13 @@ export const Game = (props: { id: string }): JSX.Element => {
       <h2 className="text-xl font-bold mt-5">Room ID: {props.id}</h2>
       <div className="flex flex-row gap-3">
         <div className="flex flex-col gap-3 my-5 min-w-[200px]">
-          <button
+          <Button
             className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={copyUrl}
           >
             {urlCopied ? 'Copied!' : 'Copy URL to clipboard'}
-          </button>
-          <button
+          </Button>
+          <Button
             className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={() => {
               resetGame(props.id);
@@ -112,8 +113,8 @@ export const Game = (props: { id: string }): JSX.Element => {
             }}
           >
             Reset game
-          </button>
-          <button
+          </Button>
+          <Button
             className="p-2 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out"
             onClick={() => {
               showResults(props.id);
@@ -125,7 +126,7 @@ export const Game = (props: { id: string }): JSX.Element => {
             }}
           >
             Show results
-          </button>
+          </Button>
           <PlayerList />
         </div>
         <div className="grow my-5 mx-10">

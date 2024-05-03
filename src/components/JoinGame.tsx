@@ -3,6 +3,7 @@
 import { useContext, useState } from 'react';
 import { GameContext } from './Game';
 import { joinGame } from '../network';
+import { Button } from './Buttons';
 
 export default function JoinGame() {
   const [newPlayerName, setNewPlayerName] = useState<string>('');
@@ -25,9 +26,7 @@ export default function JoinGame() {
           }}
           required
         />
-        <button className="py-2 px-5 rounded border-2 border-black dark:border-white hover:bg-neutral-400 dark:hover:bg-neutral-600 transition-all duration-100 ease-in-out">
-          Join
-        </button>
+        <Button>Join</Button>
       </div>
     </form>
   );
